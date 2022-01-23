@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %} {{ encore_entry_link_tags('app') }}{% endblock %}
+    </head>
+    <body>
+      <nav>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Accueil</a>
+          </li>
+
+          {% if articles is defined %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="Dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Articles
+              </a>
+              {% for article in articles %}
+              <div class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="{{ path('article_show', {'id' : article.id}) }}">
+                    {{article.title}}
+                  </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{path('article_new')}}">
+                  Nouvel article
+                </a>
+              </div>
+              {% endfor %}
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('article_index') }}">
+                Articles
+              </a>
+            </li>
+          {% endif %}
+
+          {% if categories is defined %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="Dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Catégories
+              </a>
+              <div class="dropdown-menu">
+                {% for category in categories %}
+                  <li>
+                    <a class="dropdown-item" href="{{ path('category_show', {'id' : category.id}) }}">
+                      {{category.name}}
+                    </a>
+                  </li>
+                {% endfor %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{path('category_new')}}">
+                  Nouvelle catégorie
+                </a>
+              </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('category_index') }}">
+                Catégories
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+        {% block body %}{% endblock %}
+        {% block javascripts %} {{ encore_entry_script_tags('app') }}{% endblock %}
+    </body>
+</html>
